@@ -7,17 +7,24 @@
 -   [Groundwork Theme](#groundwork-theme)
     -   [About This Project](#about-this-project)
     -   [Installation](#installation)
-    -   [Folder \& File Structure](#folder--file-structure)
-        -   [Scaffold Branch Strategy](#scaffold-branch-strategy)
-        -   [Static Homepage and Blog Setup](#static-homepage-and-blog-setup)
+    -   [Scaffold Branch Strategy](#scaffold-branch-strategy)
+    -   [Theme Structure](#theme-structure)
+        -   [Hierarchy \& Roles](#hierarchy--roles)
+            -   [Back-end](#back-end)
+            -   [Front-end](#front-end)
+            -   [Theme Root Files](#theme-root-files)
+            -   [Directory Summary](#directory-summary)
+    -   [Theme Directories \& Files](#theme-directories--files)
+        -   [Static Homepage \& Blog Setup](#static-homepage--blog-setup)
         -   [Root Files](#root-files)
         -   [Assets (`assets/`)](#assets-assets)
+        -   [Components (`components/`)](#components-components)
         -   [Includes (`inc/`)](#includes-inc)
-        -   [Template Parts (`parts/`)](#template-parts-parts)
-        -   [Custom Page Templates (`templates/`)](#custom-page-templates-templates)
-        -   [WooCommerce Integration](#woocommerce-integration)
-            -   [Requirements for Layout Integration](#requirements-for-layout-integration)
-            -   [Optional Template Overrides](#optional-template-overrides)
+        -   [Template Parts/Partials (`parts/`)](#template-partspartials-parts)
+        -   [Templates (`templates/`)](#templates-templates)
+    -   [WooCommerce Integration](#woocommerce-integration)
+        -   [Requirements For WooCommerce Layouts](#requirements-for-woocommerce-layouts)
+        -   [Optional Template Overrides](#optional-template-overrides)
     -   [Troubleshooting](#troubleshooting)
     -   [Developer Tips](#developer-tips)
     -   [Contributing](#contributing)
@@ -40,11 +47,9 @@ Groundwork is a minimalist, dependency-free WordPress theme built for clarity, s
 1. Clone or download this repository into your WordPress themes directory.
 2. Activate the theme in your WordPress dashboard under **Appearance → Themes → Groundwork**.
 
-## Folder & File Structure
+## Scaffold Branch Strategy
 
-### Scaffold Branch Strategy
-
-The `scaffold` branch contains a clean, minimal version of the Groundwork theme with just the core file structure, empty folders, .gitignore, and this README file. It serves as a permanent starting point for new themes or major rebuilds.
+The `scaffold` branch contains a clean, minimal version of the Groundwork theme. It includes the core file structure, empty folders, a .gitignore file, and this README. All files are intended as starting points only—blank and fully customizable; feel free to delete them if they aren't necessary for your project. This branch serves as a permanent foundation for new themes, forks, or major rebuilds.
 
 > -   Avoid developing features directly on this branch; instead, create new branches from it as needed.
 > -   If you are developing off of this scaffold, remember to swap out the placeholder `screenshot.png` with your own image once you finish.
@@ -76,6 +81,8 @@ wp-content/themes/groundwork/
 │   ├── js/
 │   └── images/
 │
+├── components/
+│
 ├── inc/
 │   ├── custom-functions.php
 │   ├── enqueue.php
@@ -96,7 +103,54 @@ wp-content/themes/groundwork/
     └── template-sidebar-right.php
 ```
 
-### Static Homepage and Blog Setup
+## Theme Structure
+
+### Hierarchy & Roles
+
+From a high-level perspective, the theme structure follows a clear separation of concerns:
+
+#### Back-end
+
+The **`inc/`** directory contains all PHP logic, setup functions, hooks, and utilities. The files within are meant to power the theme behind the scenes but do not directly output front-end markup.
+
+#### Front-end
+
+From largest to smallest rendering scope:
+
+-   **`templates/`**
+    Full-page layout templates (e.g. full-width pages, sidebar layouts).
+
+-   **`parts/`**
+    Reusable sections or layout blocks used inside templates (e.g. post loops, hero banners, or feature sections).
+
+-   **`components/`**
+    Small, modular UI elements such as buttons, cards, alerts, or containers. These can be reused within templates, parts, or even inside other components.
+
+-   **`assets/`**
+    A non-hierarchical directory that contains front-end resources like CSS, JavaScript, and image files used throughout the theme. While not part of the rendering hierarchy, it's essential for styling and interactivity.
+
+#### Theme Root Files
+
+Located in the root of the theme directory, these files are directly utilized by WordPress and serve as the backbone of the theme’s rendering logic:
+
+-   **Template hierarchy files**: `index.php`, `page.php`, `single.php`, `archive.php`, etc. — control how various types of content are displayed.
+-   **Global layout files**: `header.php`, `footer.php`, `sidebar.php` — automatically loaded by WordPress using functions like `get_header()` and `get_footer()`.
+-   These files tie together the templates, parts, components, and assets into a complete and functional WordPress theme.
+
+#### Directory Summary
+
+| Concept                     | Role                            | Where It Lives | Used For                                                                                  |
+| --------------------------- | ------------------------------- | -------------- | ----------------------------------------------------------------------------------------- |
+| `includes`                  | Backend functions / logic       | `inc/`         | Theme setup, hooks, utility functions, enqueue scripts/styles, etc.                       |
+| `templates`                 | Full-page layout templates      | `templates/`   | Custom page layouts like full-width or sidebar pages                                      |
+| `template parts (partials)` | Page sections / content blocks  | `parts/`       | Reusable sections like post loops, hero areas, or layout variants                         |
+| `components`                | Reusable UI elements            | `components/`  | Discrete, modular elements like buttons, cards, alerts, containers                        |
+| `assets`                    | Theme styling and scripts       | `assets/`      | Organized front-end resources: CSS, JS, and images used across theme                      |
+| **Root**                    | Core templates & WP entry files | Theme root     | Required files like `style.css`, `functions.php`, `index.php`, `header.php`, `footer.php` |
+
+## Theme Directories & Files
+
+### Static Homepage & Blog Setup
 
 This theme includes two optional template files:
 
@@ -122,7 +176,7 @@ WordPress will then automatically use `front-page.php` for the homepage and `hom
 -   **footer.php**: Contains closing HTML, footer markup, and `wp_footer()` hook.
 -   **front-page.php**: Custom static homepage template.
 -   **functions.php**: Theme setup file. Loads helper files, registers menus, widgets, and theme supports.
--   **header.php**: Outputs site `<head>` section, opening HTML tags, and site header/navigation.
+-   **header.php**: Outputs site `<head>` section, opening HTML tags, and site header/navigation. This global site header must remain in the root.
 -   **home.php**: Custom blog index template (Posts page).
 -   **index.php**: Default fallback template for any query not covered by other templates.
 -   **page.php**: Template for static pages created in WordPress admin.
@@ -132,13 +186,18 @@ WordPress will then automatically use `front-page.php` for the homepage and `hom
 -   **sidebar.php**: Defines widget areas and sidebar markup.
 -   **single.php**: Template for individual blog posts.
 -   **style.css**: Main stylesheet with theme metadata header and default styles.
--   **woocommerce.php**: Basic WooCommerce compatibility wrapper, loading shop templates when active.
+-   **woocommerce.php**: Basic WooCommerce compatibility wrapper, loading shop templates when active. Delete this file if you don't intend to use WooCommerce.
 
 ### Assets (`assets/`)
 
 -   **css/**: Place custom styles or compiled CSS files here (e.g., `theme.css`).
 -   **js/**: Add vanilla JavaScript files (e.g., navigation toggles) here.
 -   **images/**: Store any static images used by your theme (icons, placeholders).
+
+### Components (`components/`)
+
+-   **reusable UI elements**: buttons, cards, icons, alerts, carousels, CTAs, etc.
+-   **layout elements**: containers, rows, and columns.
 
 ### Includes (`inc/`)
 
@@ -148,7 +207,7 @@ WordPress will then automatically use `front-page.php` for the homepage and `hom
 -   **template-tags.php**: Custom template tag functions to reuse throughout your templates.
 -   **woocommerce-hooks.php**: Add or override WooCommerce hooks and filters.
 
-### Template Parts (`parts/`)
+### Template Parts/Partials (`parts/`)
 
 Reusable pieces of markup for different contexts. Each file corresponds to content loops:
 
@@ -158,17 +217,19 @@ Reusable pieces of markup for different contexts. Each file corresponds to conte
 -   **content-single.php**: Markup for single post content.
 -   **content-none.php**: Displayed when no content is available.
 
-### Custom Page Templates (`templates/`)
+### Templates (`templates/`)
+
+Custom page markup for the full page.
 
 -   **template-fullwidth.php**: Page layout without a sidebar.
 -   **template-sidebar-left.php**: Page layout with the sidebar/widget area on the left.
 -   **template-sidebar-right.php**: Page layout with the sidebar/widget area on the right.
 
-### WooCommerce Integration
+## WooCommerce Integration
 
-This theme includes basic WooCommerce compatibility to support standard eCommerce features out of the box.
+This theme includes basic WooCommerce compatibility to support standard eCommerce features out of the box. If you don't intend to use WooCommerce, delete the root `woocommerce.php` file from your project.
 
-#### Requirements for Layout Integration
+### Requirements For WooCommerce Layouts
 
 The `woocommerce.php` file in the theme root acts as a **layout wrapper** for all WooCommerce-generated pages—such as the Shop, Cart, Checkout, and My Account pages. It allows the theme to apply its own structure (like the header, footer, main container, and sidebar) around WooCommerce’s content.
 
@@ -176,7 +237,7 @@ By default, WooCommerce falls back to this file (if it exists) instead of using 
 
 > If no `woocommerce.php` is provided, WooCommerce will fall back to `page.php` or its internal wrappers.
 
-#### Optional Template Overrides
+### Optional Template Overrides
 
 If deeper customization is needed, you can override specific WooCommerce templates by creating a `/woocommerce/` folder in your theme.
 
@@ -200,7 +261,7 @@ groundwork/
 2. Copy it into the same relative path in your theme’s `/woocommerce/` folder.
 3. Modify as needed.
 
-> ⚠️ Only override templates you truly need to change. Keeping overrides minimal reduces future maintenance when WooCommerce updates its templates.
+> ⚠️ Only override templates you truly need to change in order to reduce future maintenance when WooCommerce updates its templates.
 
 ## Troubleshooting
 
