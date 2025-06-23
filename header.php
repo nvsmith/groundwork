@@ -1,3 +1,14 @@
+<?php
+/**
+ * The template for displaying the site header
+ *
+ * Contains the opening HTML structure, <head> metadata, site branding, 
+ * and the primary navigation menu.
+ *
+ * @package Groundwork
+ */
+?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
