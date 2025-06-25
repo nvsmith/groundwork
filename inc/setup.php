@@ -1,0 +1,1 @@
+<!-- This file typically handles add_theme_support(), menu registration, etc. -->

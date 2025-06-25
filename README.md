@@ -2,7 +2,7 @@
 
 # Groundwork Theme
 
-<a href="https://outpostwebstudio.com/" target="_blank" rel="author">Nate @ Outpost Web Studio</a> | Last Updated: 12 JUN 2025
+<a href="https://outpostwebstudio.com/" target="_blank" rel="author">Nate @ Outpost Web Studio</a> | Last Updated: 24 JUN 2025
 
 -   [Groundwork Theme](#groundwork-theme)
     -   [About This Project](#about-this-project)
@@ -25,6 +25,13 @@
     -   [WooCommerce Integration](#woocommerce-integration)
         -   [Requirements For WooCommerce Layouts](#requirements-for-woocommerce-layouts)
         -   [Optional Template Overrides](#optional-template-overrides)
+    -   [CSS Styles](#css-styles)
+        -   [Structure](#structure)
+        -   [Class Names](#class-names)
+        -   [Styling Guidelines](#styling-guidelines)
+            -   [Layouts \& Document Flow](#layouts--document-flow)
+            -   [Spacing (Margins \& Padding)](#spacing-margins--padding)
+            -   [Class Naming Consistency](#class-naming-consistency)
     -   [Troubleshooting](#troubleshooting)
     -   [Developer Tips](#developer-tips)
     -   [Contributing](#contributing)
@@ -68,7 +75,7 @@ wp-content/themes/groundwork/
 ├── home.php
 ├── index.php
 ├── page.php
-├── screenshot.png
+├── screenshot.png   # Replace this placeholder with your own image #
 ├── search.php
 ├── searchform.php
 ├── sidebar.php
@@ -262,6 +269,58 @@ groundwork/
 3. Modify as needed.
 
 > ⚠️ Only override templates you truly need to change in order to reduce future maintenance when WooCommerce updates its templates.
+
+## CSS Styles
+
+### Structure
+
+This theme uses a minimal, **Bootstrap-inspired structure** to keep HTML consistent and easy to target for flexbox or grid layouts. Front-end elements are wrapped in a hierarchy of containers > rows > columns (with class names of `.container`, `.row`, and `.col`).
+
+### Class Names
+
+All classes follow the **BEM (Block–Element–Modifier)** naming convention for clarity and modularity:
+
+-   `block`: The standalone component (`site-header`, `site-main`)
+-   `block__element`: A nested part of the block (`site-header__nav`)
+-   `block__element--modifier`: A variation or state (`site-header__nav--expanded`)
+
+This approach makes styles easy to understand, maintain, and override as needed.
+
+### Styling Guidelines
+
+#### Layouts & Document Flow
+
+Work with the foundational structure:
+
+-   Containers: handle global alignment and max-width constraints.
+-   Rows: align columns and handle horizontal flow.
+-   Columns: handle the content and **should receive most of the spacing and styling.**
+
+> Rule of Thumb: style columns first, then rows, and only style containers when necessary.
+
+#### Spacing (Margins & Padding)
+
+When deciding what/how to style, prioritize inner/specific elements over outer/general elements to keep large, structural parts of templates as consistent as possible.
+
+-   Apply spacing to the inner-most element whenever possible.
+-   Prefer padding inside a column for internal spacing.
+-   Use margin on columns for external spacing between sibling elements.
+-   Avoid padding on rows unless absolutely needed.
+-   Only use spacing on containers for overall page layout tweaks.
+
+#### Class Naming Consistency
+
+Be specific with modifier classes. Use modifiers for spacing or visual variations, not layout behavior:
+
+-   ✅ `.site-footer__col--fullwidth`
+-   ✅ `.button--large`
+-   ❌ `.site-footer__row--margin-bottom-20px`
+
+Keep modifier names meaningful. Use intent-driven naming instead of raw CSS values:
+
+-   ✅ `.button--padded`
+-   ✅ `.button--highlighted`
+-   ❌ `.button--margin-top-20`
 
 ## Troubleshooting
 

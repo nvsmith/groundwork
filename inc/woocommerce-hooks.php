@@ -1,0 +1,1 @@
+<!-- This file runs only if WooCommerce is active, keeps store logic separated -->
