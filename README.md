@@ -2,7 +2,7 @@
 
 # Groundwork Theme
 
-<a href="https://outpostwebstudio.com/" target="_blank" rel="author">Nate @ Outpost Web Studio</a> | Last Updated: 12 JUN 2025
+<a href="https://outpostwebstudio.com/" target="_blank" rel="author">Nate @ Outpost Web Studio</a> | Last Updated: 24 JUN 2025
 
 -   [Groundwork Theme](#groundwork-theme)
     -   [About This Project](#about-this-project)
@@ -20,11 +20,19 @@
         -   [Assets (`assets/`)](#assets-assets)
         -   [Components (`components/`)](#components-components)
         -   [Includes (`inc/`)](#includes-inc)
+        -   [Languages \& Translation (`languages/`)](#languages--translation-languages)
         -   [Template Parts/Partials (`parts/`)](#template-partspartials-parts)
         -   [Templates (`templates/`)](#templates-templates)
     -   [WooCommerce Integration](#woocommerce-integration)
         -   [Requirements For WooCommerce Layouts](#requirements-for-woocommerce-layouts)
         -   [Optional Template Overrides](#optional-template-overrides)
+    -   [CSS Styles](#css-styles)
+        -   [Structure](#structure)
+        -   [Class Names](#class-names)
+        -   [Styling Guidelines](#styling-guidelines)
+            -   [Layouts \& Document Flow](#layouts--document-flow)
+            -   [Spacing (Margins \& Padding)](#spacing-margins--padding)
+            -   [Class Naming Consistency](#class-naming-consistency)
     -   [Troubleshooting](#troubleshooting)
     -   [Developer Tips](#developer-tips)
     -   [Contributing](#contributing)
@@ -68,7 +76,7 @@ wp-content/themes/groundwork/
 ├── home.php
 ├── index.php
 ├── page.php
-├── screenshot.png
+├── screenshot.png   # Replace this placeholder with your own image #
 ├── search.php
 ├── searchform.php
 ├── sidebar.php
@@ -89,6 +97,9 @@ wp-content/themes/groundwork/
 │   ├── setup.php
 │   ├── template-tags.php
 │   └── woocommerce-hooks.php
+│
+├── languages/
+│   ├── README.md
 │
 ├── parts/
 │   ├── content-archive.php
@@ -111,11 +122,14 @@ From a high-level perspective, the theme structure follows a clear separation of
 
 #### Back-end
 
-The **`inc/`** directory contains all PHP logic, setup functions, hooks, and utilities. The files within are meant to power the theme behind the scenes but do not directly output front-end markup.
+-   **`inc/`**
+    Contains all PHP logic, setup functions, hooks, and utilities. The files within are meant to power the theme behind the scenes but do not directly output front-end markup.
+-   **`languages/`**
+    This optional folder can be used to store translation files for the theme. (You can delete this folder and its instructional README file if you don't plan to include translation support in your theme.)
 
 #### Front-end
 
-From largest to smallest rendering scope:
+From **largest to smallest** rendering scope:
 
 -   **`templates/`**
     Full-page layout templates (e.g. full-width pages, sidebar layouts).
@@ -127,7 +141,7 @@ From largest to smallest rendering scope:
     Small, modular UI elements such as buttons, cards, alerts, or containers. These can be reused within templates, parts, or even inside other components.
 
 -   **`assets/`**
-    A non-hierarchical directory that contains front-end resources like CSS, JavaScript, and image files used throughout the theme. While not part of the rendering hierarchy, it's essential for styling and interactivity.
+    A non-hierarchical directory that contains front-end resources like CSS, JavaScript, and image files used throughout the theme. While not part of the rendering scope hierarchy, it's essential for styling and interactivity.
 
 #### Theme Root Files
 
@@ -142,17 +156,18 @@ Located in the root of the theme directory, these files are directly utilized by
 | Concept                     | Role                            | Where It Lives | Used For                                                                                  |
 | --------------------------- | ------------------------------- | -------------- | ----------------------------------------------------------------------------------------- |
 | `includes`                  | Backend functions / logic       | `inc/`         | Theme setup, hooks, utility functions, enqueue scripts/styles, etc.                       |
+| `translations`              | Language translation files      | `languages/`   | Theme translation support (optional)                                                      |
 | `templates`                 | Full-page layout templates      | `templates/`   | Custom page layouts like full-width or sidebar pages                                      |
 | `template parts (partials)` | Page sections / content blocks  | `parts/`       | Reusable sections like post loops, hero areas, or layout variants                         |
 | `components`                | Reusable UI elements            | `components/`  | Discrete, modular elements like buttons, cards, alerts, containers                        |
-| `assets`                    | Theme styling and scripts       | `assets/`      | Organized front-end resources: CSS, JS, and images used across theme                      |
+| `css`, `js`, `img`          | Theme styling and scripts       | `assets/`      | Organized front-end resources: CSS, JS, and images used across theme                      |
 | **Root**                    | Core templates & WP entry files | Theme root     | Required files like `style.css`, `functions.php`, `index.php`, `header.php`, `footer.php` |
 
 ## Theme Directories & Files
 
 ### Static Homepage & Blog Setup
 
-This theme includes two optional template files:
+This theme includes two optional root template files if you want separate home and blog pages:
 
 -   **front-page.php** – Used for the static homepage when set in **Settings → Reading** as “Homepage.” Customize this to create a unique landing page layout.
 -   **home.php** – Used for the Posts page (your blog index) when set in **Settings → Reading** as “Posts page.” Controls how your blog posts are displayed.
@@ -186,7 +201,8 @@ WordPress will then automatically use `front-page.php` for the homepage and `hom
 -   **sidebar.php**: Defines widget areas and sidebar markup.
 -   **single.php**: Template for individual blog posts.
 -   **style.css**: Main stylesheet with theme metadata header and default styles.
--   **woocommerce.php**: Basic WooCommerce compatibility wrapper, loading shop templates when active. Delete this file if you don't intend to use WooCommerce.
+-   **woocommerce.php**: Basic WooCommerce compatibility wrapper, loading shop templates when active.
+    -   If you don't intend to use WooCommerce, delete this file and the `inc/woocommerce-hooks.php` file.
 
 ### Assets (`assets/`)
 
@@ -206,6 +222,10 @@ WordPress will then automatically use `front-page.php` for the homepage and `hom
 -   **setup.php**: Sets up theme supports (title tag, post thumbnails, HTML5) and registers menus/sidebars.
 -   **template-tags.php**: Custom template tag functions to reuse throughout your templates.
 -   **woocommerce-hooks.php**: Add or override WooCommerce hooks and filters.
+
+### Languages & Translation (`languages/`)
+
+-   **README.md**: A simple explanation file that explains how to (optionally) include translation support for the theme.
 
 ### Template Parts/Partials (`parts/`)
 
@@ -262,6 +282,58 @@ groundwork/
 3. Modify as needed.
 
 > ⚠️ Only override templates you truly need to change in order to reduce future maintenance when WooCommerce updates its templates.
+
+## CSS Styles
+
+### Structure
+
+This theme uses a minimal, **Bootstrap-inspired structure** to keep HTML consistent and easy to target for flexbox or grid layouts. Front-end elements are wrapped in a hierarchy of containers > rows > columns (with class names of `.container`, `.row`, and `.col`).
+
+### Class Names
+
+All classes follow the **BEM (Block–Element–Modifier)** naming convention for clarity and modularity:
+
+-   `block`: The standalone component (`site-header`, `site-main`)
+-   `block__element`: A nested part of the block (`site-header__nav`)
+-   `block__element--modifier`: A variation or state (`site-header__nav--expanded`)
+
+This approach makes styles easy to understand, maintain, and override as needed.
+
+### Styling Guidelines
+
+#### Layouts & Document Flow
+
+Work with the foundational structure:
+
+-   Containers: handle global alignment and max-width constraints.
+-   Rows: align columns and handle horizontal flow.
+-   Columns: handle the content and **should receive most of the spacing and styling.**
+
+> Rule of Thumb: style columns first, then rows, and only style containers when necessary.
+
+#### Spacing (Margins & Padding)
+
+When deciding what/how to style, prioritize inner/specific elements over outer/general elements to keep large, structural parts of templates as consistent as possible.
+
+-   Apply spacing to the inner-most element whenever possible.
+-   Prefer padding inside a column for internal spacing.
+-   Use margin on columns for external spacing between sibling elements.
+-   Avoid padding on rows unless absolutely needed.
+-   Only use spacing on containers for overall page layout tweaks.
+
+#### Class Naming Consistency
+
+Be specific with modifier classes. Use modifiers for spacing or visual variations, not layout behavior:
+
+-   ✅ `.site-footer__col--fullwidth`
+-   ✅ `.button--large`
+-   ❌ `.site-footer__row--margin-bottom-20px`
+
+Keep modifier names meaningful. Use intent-driven naming instead of raw CSS values:
+
+-   ✅ `.button--padded`
+-   ✅ `.button--highlighted`
+-   ❌ `.button--margin-top-20`
 
 ## Troubleshooting
 
