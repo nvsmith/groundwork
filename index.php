@@ -20,17 +20,17 @@ if ( have_posts() ) : ?>
                     the_post();
                 ?>
                     <div class="col site-main__col site-main__col--post">
-                        <?php get_template_part( "parts/content", get_post_type() ); ?>
+                        <?php get_template_part( 'parts/content', get_post_type() ); ?>
                     </div> <!-- end site-main__col--post -->
                 <?php endwhile; ?>
             </div> <!-- end site-main__row -->
 
             <?php 
             the_posts_pagination( array(
-                "mid_size"  => 2,
-                "prev_text" => __( "« Prev", "groundwork" ),
-                "next_text" => __( "Next »", "groundwork" ),
-                "screen_reader_text" => __( "Posts navigation", "groundwork" ),
+                'mid_size'  => 2,
+                'prev_text' => __( '« Prev', 'groundwork' ),
+                'next_text' => __( 'Next »', 'groundwork' ),
+                'screen_reader_text' => __( 'Posts navigation', 'groundwork' ),
             ) );
             ?>
         </div> <!-- end site-main__container -->
@@ -43,7 +43,7 @@ else : ?>
         <div class="container site-main__container">
             <div class="row site-main__row">
                 <div class="col site-main__col site-main__col--empty">
-                    <?php get_template_part( "parts/content", "none" ); ?>
+                    <?php get_template_part( 'parts/content', 'none' ); ?>
                 </div> <!-- end site-main__col--empty -->
             </div> <!-- end site-main__row -->
         </div> <!-- end site-main__container -->

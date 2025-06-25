@@ -8,11 +8,11 @@
 
         <footer class="site-footer" role="contentinfo" aria-label="Site Footer">
             <div class="container site-footer__container">
-                <?php if ( is_active_sidebar( "footer-1")) : ?>
+                <?php if ( is_active_sidebar( 'footer-1')) : ?>
                     <!-- Footer Widgets -->
                     <div class="row site-footer__row">
                         <div class="col site-footer__col site-footer__widgets">
-                            <?php dynamic_sidebar( "footer-1" ); ?>
+                            <?php dynamic_sidebar( 'footer-1' ); ?>
                         </div> <!-- end site-footer__widgets -->
                     </div> <!-- end site-footer__row -->
                 <?php endif; ?>
@@ -22,7 +22,7 @@
                     <!-- Site Info / Attribution -->
                     <div class="col site-footer__col site-footer__attribution">
                         <p class="site-footer__text">
-                            &copy; <?php echo date( "Y" ); ?>
+                            &copy; <?php echo date( 'Y' ); ?>
                             <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
                                 <?php bloginfo( 'name' ); ?>
                             </a>. All rights reserved.
