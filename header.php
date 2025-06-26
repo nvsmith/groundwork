@@ -37,17 +37,20 @@
                     <?php endif; ?>
                  </div> <!-- end Branding -->
                  
-                 <!-- Navigation -->
-                 <div class="col site-header__col site-header__nav-col">
-                    <nav class="site-header__nav" role="navigation" aria-label="Primary menu">
-                        <?php wp_nav_menu( array(
-                            'theme_location' => 'primary',
-                            'menu_class' => 'site-header__menu',
-                            'container' => false,
-                        ));
-                        ?>
-                    </nav>
-                 </div> <!-- end Navigation -->
+                 <?php if ( has_nav_menu( 'header' ) ) : ?>
+                    <!-- Navigation -->
+                    <div class="col site-header__col site-header__nav-col">
+                        <nav class="site-header__nav" role="navigation" aria-label="Header menu">
+                            <?php wp_nav_menu( array(
+                                'theme_location' => 'header',
+                                'menu_class' => 'site-header__menu',
+                                'container' => false,
+                                'depth' => 1,
+                            ));
+                            ?>
+                        </nav>
+                    </div> <!-- end Navigation -->
+                 <?php endif; ?>
             </div> <!-- end site-header__row -->
         </div> <!-- end site-header__container -->
     </header>
